@@ -42,9 +42,7 @@ function whatCardIsIt (card) {
 //BOOM!   
     let cardPicked = cardName(cardArray[0]) + ' ' + suitName(cardArray[1])
     return cardPicked //returns cardPicked
-    
 }
-
 function cardName(card) {
     switch(card) {
         case"1": 
@@ -104,7 +102,7 @@ function lower() {
     if (newCard < storedCard) { //the bets new card is compared to previous stored card
         guessCorrect('lower')//guessCorr func gets called and passed 'lower' 
     } else {
-        gameOver('higher') //gameOver function called if user is wrong, pass in param
+        gameOver('lower', 'higher') //gameOver function called if user is wrong, pass in param
     }
     storedCard = newCard//newCard becomes the old/stored card
 }
@@ -117,7 +115,7 @@ function higher() {
     if (newCard > storedCard) {
         guessCorrect('higher')
     } else {
-        gameOver('lower')
+        gameOver('higher','lower')
     }
     storedCard = newCard
 }
@@ -141,11 +139,12 @@ function guessCorrect(bet) { //bet is taken from the higher and lower funcs
 
 //Writes on the page how you bet and what the cards were
     document.getElementById("containerFive").innerHTML = `You win this round, 
-    new card: ${newCard}, ${bet} than stored card: ${storedCard}. Pick again?`
+    new card: ${whatCardIsIt(newCard)}, ${bet} than stored card: ${whatCardIsIt(storedCard)}. Pick again?`
     
     score += 1 //updates the score by 1 and then shows this on the page
     document.getElementById("scoreNum").innerHTML = `Score: ${score}`
     checkScore()//if 5 is hit, alerts winner
+    
 }
 
 //This function replaces the old card with the new card
@@ -164,9 +163,10 @@ function checkScore() {
     }
 }
 
-function gameOver(poop) { //'lower' here, needs to change depending on way they bet
-    userInput = prompt(`Game over! You lose. New card: ${newCard} ${poop} 
-    than stored card: ${storedCard}. Play again? \n1. Yes \n2. No`)
+function gameOver(bet, itWas) { //passes in, which direction the user bet, and what the direction it actually was was 'itWas'
+    userInput = prompt(`Game over! You lose. You bet ${bet} but your new card ${whatCardIsIt(newCard)} is ${itWas} than your stored card ${whatCardIsIt(storedCard)}. 
+    
+Play again? \n1. Yes \n2. No`)
     if (userInput == 1) {
         location.reload()
     } else {
